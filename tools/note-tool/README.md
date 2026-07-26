@@ -26,6 +26,15 @@ python3 note_tool.py https://www.douyin.com/video/xxxxx --no-rewrite
 # 提取 + 保存到 Get笔记（得到大脑）
 python3 note_tool.py https://www.xiaohongshu.com/explore/xxxxx --save
 
+# 列出 Get笔记 最近笔记
+python3 note_tool.py --list-getnote
+
+# 从 Get笔记 读取并仿写为视频口播稿
+python3 note_tool.py --from-getnote <note_id> --style "视频口播稿"
+
+# 从 Get笔记 读取 → 仿写 → 存回 Get笔记
+python3 note_tool.py --from-getnote <note_id> --style "公众号文章" --save
+
 # 使用快捷脚本
 ./note.sh https://www.xiaohongshu.com/explore/xxxxx
 ```

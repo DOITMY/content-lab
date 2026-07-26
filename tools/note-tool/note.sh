@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # 从 Hermes 环境变量读取
 if [ -f "$HOME/.hermes/.env" ]; then
     # shellcheck disable=SC1090
-    source <(grep -E "^(DEEPSEEK_API_KEY|DEEPSEEK_BASE_URL)=" "$HOME/.hermes/.env")
+    source <(grep -E "^(DEEPSEEK_API_KEY|DEEPSEEK_BASE_URL|GETNOTE_API_KEY|GETNOTE_CLIENT_ID)=" "$HOME/.hermes/.env")
 fi
 
 if [ -z "$DEEPSEEK_API_KEY" ]; then
