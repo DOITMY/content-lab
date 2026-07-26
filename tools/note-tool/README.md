@@ -1,6 +1,6 @@
 # 笔记提取器 (Note Tool)
 
-从抖音/小红书链接提取内容，用 AI 仿写为个人笔记。
+从抖音/小红书链接提取内容，用 AI 仿写为个人笔记，支持一键保存到 Get笔记（得到大脑）。
 
 ## 安装依赖
 
@@ -23,20 +23,31 @@ python3 note_tool.py https://www.xiaohongshu.com/explore/xxxxx --style "观点�
 # 只提取原文，不仿写
 python3 note_tool.py https://www.douyin.com/video/xxxxx --no-rewrite
 
+# 提取 + 保存到 Get笔记（得到大脑）
+python3 note_tool.py https://www.xiaohongshu.com/explore/xxxxx --save
+
 # 使用快捷脚本
 ./note.sh https://www.xiaohongshu.com/explore/xxxxx
 ```
 
 ## 配置
 
-需要设置 DeepSeek API 密钥（用于 AI 仿写）：
+### DeepSeek API（用于 AI 仿写）
 
 ```bash
 export DEEPSEEK_API_KEY="sk-your-key"
 export DEEPSEEK_BASE_URL="https://api.deepseek.com"
 ```
 
-也可直接用 `note.sh` 脚本（已内置你的 API Key）。
+### Get笔记（可选，用于 --save 功能）
+
+已从 `~/.hermes/.env` 自动读取配置，无需额外设置。
+
+对应环境变量：
+```bash
+GETNOTE_API_KEY=gk_live_xxx
+GETNOTE_CLIENT_ID=cli_xxx
+```
 
 ## 目录结构
 
@@ -50,5 +61,7 @@ tools/note-tool/
 │   └── douyin.py         # 抖音内容提取
 ├── rewriters/
 │   └── deepseek.py       # DeepSeek AI 仿写
+├── savers/
+│   └── getnote.py        # Get笔记 API 保存
 └── notes/                # 生成的笔记输出目录
 ```

@@ -10,6 +10,7 @@
     --no-rewrite     只提取内容，不进行 AI 仿写
     --output DIR     输出目录 (默认: ./notes/)
     --cookie TEXT    小红书 cookie (可选，用于提取非公开笔记)
+    --save           保存到 Get笔记（得到大脑）
     --help           显示帮助
 """
 import os
@@ -24,6 +25,7 @@ sys.path.insert(0, TOOL_DIR)
 from extractors.xiaohongshu import get_note as get_xhs_note
 from extractors.douyin import get_note as get_douyin_note
 from rewriters.deepseek import rewrite_note
+from savers.getnote import save_to_getnote
 
 
 def detect_platform(url: str) -> str:
@@ -53,7 +55,7 @@ def format_filename(title: str) -> str:
 
 
 def run(url: str, style: str = "个人学习笔记", no_rewrite: bool = False, 
-        output_dir: str = None, cookie: str = None) -> dict:
+        output_dir: str = None, cookie: str = None, save: bool = False) -> dict:
     """
     主执行流程
     """
@@ -97,6 +99,15 @@ def run(url: str, style: str = "个人学习笔记", no_rewrite: bool = False,
         f.write(md_content)
     
     print(f"\n📝 笔记已保存: {filepath}")
+    
+    # 步骤4：保存到 Get笔记
+    if save:
+        print("☁️  正在保存到 Get笔记...")
+        result = save_to_getnote(content, md_content)
+        if result.get("success"):
+            print(f"   ✅ 已保存到 Get笔记 (note_id: {result['note_id']})")
+        else:
+            print(f"   ❌ 保存失败: {result.get('error', '未知错误')}")
     
     return {
         "content": content,
@@ -147,10 +158,11 @@ def main():
     parser.add_argument("--no-rewrite", action="store_true", help="只提取内容，不进行 AI 仿写")
     parser.add_argument("--output", help="输出目录 (默认: ./notes/)")
     parser.add_argument("--cookie", help="小红书 cookie (可选)")
+    parser.add_argument("--save", action="store_true", help="保存到 Get笔记（得到大脑）")
     
     args = parser.parse_args()
     
-    run(args.url, args.style, args.no_rewrite, args.output, args.cookie)
+    run(args.url, args.style, args.no_rewrite, args.output, args.cookie, args.save)
 
 
 if __name__ == "__main__":
