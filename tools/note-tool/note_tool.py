@@ -102,16 +102,25 @@ def run_from_getnote(note_id: str, style: str = "个人学习笔记", no_rewrite
     note_type = note.get("note_type", "")
     tags = [t.get("name", "") for t in note.get("tags", [])]
 
+    # 优先用原文（web_page.content），其次用 content
+    raw_text = ""
+    web_page = note.get("web_page", {}) or {}
+    if isinstance(web_page, dict) and web_page.get("content"):
+        raw_text = web_page["content"]
+    else:
+        raw_text = content_text
+    
     print(f"   ✅ 标题: {title}")
     print(f"   ✅ 类型: {note_type}")
     print(f"   ✅ 标签: {', '.join(tags) if tags else '无'}")
-    preview = content_text[:100]
-    print(f"   ✅ 内容: {preview}{'...' if len(content_text) > 100 else ''}")
+    source_label = "原文" if web_page.get("content") else "Get笔记优化版"
+    preview = raw_text[:100]
+    print(f"   ✅ 内容({source_label}): {preview}{'...' if len(raw_text) > 100 else ''}")
 
     # 构建 content 字典供 rewriter 使用
     content = {
         "title": title,
-        "desc": content_text,
+        "desc": raw_text,  # 使用原文而非 optimization 版
         "tags": tags,
         "author": "Get笔记",
         "source": "getnote",
