@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-*
+
+# Python (if any)
+__pycache__/
+*.py[cod]
+.env
+venv/
+.venv/
+*.egg-info/
+
+# Node (if any)
+node_modules/
+.npm/
+
+# OS generated
+.DS_Store
+ehthumbs.db
+Desktop.ini
+
+# Temp files
+*.log
+*.tmp
