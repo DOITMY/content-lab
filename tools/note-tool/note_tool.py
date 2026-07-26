@@ -23,6 +23,16 @@ import sys
 import argparse
 from datetime import datetime
 
+# 自动读取 ~/.hermes/.env 中的环境变量
+_HERMES_ENV = os.path.expanduser("~/.hermes/.env")
+if os.path.exists(_HERMES_ENV):
+    with open(_HERMES_ENV) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, val = line.split("=", 1)
+                os.environ.setdefault(key.strip(), val.strip().strip('"').strip("'"))
+
 TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOL_DIR)
 
